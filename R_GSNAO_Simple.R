@@ -1,13 +1,13 @@
 rm(list=ls())
-gsindex=read.table("~/Desktop/u_Jags/GSI_Annual_text.txt",header=T)
+gsindex=read.table("GSI_Annual_text.txt",header=T)
 head(gsindex)
-ice=read.table("~/Desktop/u_Jags/IceLow_text.txt",skip=1,header=T)
+ice=read.table("IceLow_text.txt",skip=1,header=T)
 head(ice)
 iceyearly <- tapply(ice$Pressure,ice$Year,FUN=mean)
 ice_data_full <- data.frame(Year=names(iceyearly),mean=iceyearly)
 ice_data=ice_data_full[19:63,] # selected for 1966 to 2010
 #
-azr=read.table("~/Desktop/u_Jags/Azr_High_text.txt",skip=1,header=T)
+azr=read.table("Azr_High_text.txt",skip=1,header=T)
 azryearly <- tapply(azr$Pressure,azr$Year,FUN=mean)
 azr_data_full <- data.frame(Year=names(azryearly),mean=azryearly)
 azr_data= azr_data_full[19:63,] # selected for 1966 to 2010
@@ -35,7 +35,7 @@ n.update=10000
 n.iter=10000
 ##call to JAGS
 set.seed(1)
-jm=jags.model("~/Desktop/u_Jags/GSNAO_Simple_model.txt",data=data1, inits,
+jm=jags.model("GSNAO_Simple_model.txt",data=data1, inits,
               n.chains=length(inits), n.adapt = 5000)
 update(jm, n.iter=n.update)
 zm=coda.samples(jm,variable.names=c("alpha", "beta", "sigma", "tau"),
