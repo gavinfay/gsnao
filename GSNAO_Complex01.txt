@@ -1,0 +1,22 @@
+##Gulf Stream and NAO (Iceland-Azores) model
+# This is a simple version
+model{
+#priors
+# Some definitions
+# Just AH and IL
+#AH ~ dnorm(1024,20)
+ILPr ~ dnorm(1001,15) 
+# Means of azores and iceland are set to 1024 and 1001
+#
+# alphas and betas 
+alpha ~ dnorm(0,100)
+beta ~ dnorm(0,100)
+tau ~ dgamma(0.001,0.001) #precision
+sigma <- 1/sqrt(tau) # calculate sd from precision
+
+#likelihood -- 
+for(i in 1:n){
+mugs[i] <-  0.40 * ypm1[i] + alpha * ILPr + beta * ILp[i]
+yp[i] ~ dnorm(mugs[i],tau)
+}
+} #end of model

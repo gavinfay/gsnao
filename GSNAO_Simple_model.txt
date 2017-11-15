@@ -1,0 +1,18 @@
+##Gulf Stream and NAO (Iceland-Azores) model
+# This is a simple version
+model{
+#priors
+#
+# Just alpha and beta
+# 
+alpha ~ dnorm(0,100)
+beta ~ dnorm(0,100)
+tau ~ dgamma(0.001,0.001) #precision
+sigma <- 1/sqrt(tau) # calculate sd from precision
+
+#likelihood -
+for(i in 1:n){
+mugs[i] <-   alpha * AH[i] + beta * IL[i]
+y[i] ~ dnorm(mugs[i],tau)
+}
+} #end of model
